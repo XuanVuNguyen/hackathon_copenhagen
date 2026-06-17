@@ -1,0 +1,66 @@
+{
+    "logging_path": "/home/krict_lukas/hackathon_copenhagen/tasks/task-1/saturn_task1.log",
+    "model_checkpoints_dir": "/home/krict_lukas/hackathon_copenhagen/tasks/task-1/checkpoints",
+    "generation": {
+        "budget": 50000,
+        "batch_size": 256,
+        "oracle": {
+            "aggregator": "product",
+            "allow_oracle_repeats": false,
+            "components": [
+                {
+                    "name": "task1",
+                    "weight": 1.0,
+                    "preliminary_check": false,
+                    "specific_parameters": {
+                        "model_path": "/home/krict_lukas/hackathon_copenhagen/tasks/task-1/model/model.safetensors"
+                    },
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "no_transformation",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "name": "qed",
+                    "weight": 1.0,
+                    "preliminary_check": false,
+                    "specific_parameters": {},
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "no_transformation",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "name": "sa_score",
+                    "weight": 1.0,
+                    "preliminary_check": false,
+                    "specific_parameters": {},
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "reverse_sigmoid",
+                        "parameters": {
+                            "low": 2.0,
+                            "high": 5.0,
+                            "k": 1.0
+                        }
+                    }
+                },
+                {
+                    "name": "molecular_weight",
+                    "weight": 1.0,
+                    "preliminary_check": true,
+                    "specific_parameters": {},
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "double_sigmoid",
+                        "parameters": {
+                            "low": 200.0,
+                            "high": 600.0,
+                            "coef_div": 100.0,
+                            "coef_si": 20.0,
+                            "coef_se": 20.0
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
