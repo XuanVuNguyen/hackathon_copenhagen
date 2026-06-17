@@ -1,0 +1,52 @@
+{
+    "logging_path": "/home/krict_lukas/hackathon_copenhagen/tasks/task-2/saturn_task2_lira.log",
+    "model_checkpoints_dir": "/home/krict_lukas/hackathon_copenhagen/tasks/task-2/checkpoints",
+    "generation": {
+        "budget": 50000,
+        "batch_size": 256,
+        "oracle": {
+            "aggregator": "product",
+            "allow_oracle_repeats": false,
+            "components": [
+                {
+                    "name": "dynamic_lira",
+                    "weight": 1.0,
+                    "preliminary_check": false,
+                    "specific_parameters": {
+                        "model_path": "/home/krict_lukas/hackathon_copenhagen/tasks/task-2/model/model.safetensors",
+                        "train_interval": 10,
+                        "epochs_per_train": 5
+                    },
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "no_transformation",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "name": "qed",
+                    "weight": 1.0,
+                    "preliminary_check": false,
+                    "specific_parameters": {},
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "no_transformation",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "name": "sa_score",
+                    "weight": 1.0,
+                    "preliminary_check": false,
+                    "specific_parameters": {},
+                    "reward_shaping_function_parameters": {
+                        "transformation_function": "reverse_sigmoid",
+                        "parameters": {
+                            "low": 2.0,
+                            "high": 5.0,
+                            "k": 1.0
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
